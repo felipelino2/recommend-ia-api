@@ -1,9 +1,15 @@
-from flask import Blueprint, request, make_response, jsonify
+from flask import Blueprint, request, make_response, jsonify, abort
 import json
 
 from middewares.middle import call_google_fonts
 from core.model_connection import send_prompt
 import core.system_prompt as s
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+TOKEN = os.getenv("TOKEN_RECOMMEND_API")
+
 
 give_ia_response =  Blueprint("give_ia_response", __name__)
 
@@ -24,6 +30,10 @@ def _process_request_string(prompt, system_prompt):
 @give_ia_response.route("/structured", methods=['POST'])
 def give_response():
     try:
+        token = request.headers.get('Authorization')
+        if token != f'Bearer {TOKEN}':
+            raise Exception('Taken inválido.')
+
         prompt = request.json
     
         res = _process_request_string(prompt, s.SYSTEM_PROMPT_STRUCTURED)
