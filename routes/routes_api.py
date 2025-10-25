@@ -5,7 +5,6 @@ from middewares.middle import call_google_fonts
 from core.model_connection import send_prompt
 import core.system_prompt as s
 
-
 give_ia_response =  Blueprint("give_ia_response", __name__)
 
 
