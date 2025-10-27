@@ -1,1 +1,1 @@
-from.prompts import TEXTUTAL, STRUCTURED
+from .prompts import TEXTUTAL, STRUCTURED
