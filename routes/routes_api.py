@@ -13,7 +13,7 @@ load_dotenv()
 TOKEN: str = os.getenv("TOKEN_RECOMMEND_API")
 
 #system prompts
-SYSTEM_PROMPT_TEXTUAL: str = s.TEXTUTAL
+SYSTEM_PROMPT_TEXTUAL: str = s.TEXTUAL
 SYSTEM_PROMPT_STRUCTURED: str = s.STRUCTURED
 
 give_ia_response =  Blueprint("give_ia_response", __name__)
@@ -69,5 +69,3 @@ def give_response_textual():
         
    
     
-
-print(s.TEXTUTAL)
