@@ -4,13 +4,13 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-API_KEY_GF = os.getenv("API_KEY_GF")
+API_KEY_GF:str = os.getenv("API_KEY_GF")
 all_fonts = fetch_google_fonts(API_KEY_GF)["items"]
 
-fonts_inx = {font["family"]: font for font in all_fonts}
+fonts_idx: dict = {font["family"]: font for font in all_fonts}
 
-def verify_math_fonts(match_name): 
-    font = fonts_inx.get(match_name)
+def verify_math_fonts(match_name: str) -> dict | bool: 
+    font: dict = fonts_idx.get(match_name)
     if font:
         return { "category": font["category"], 
                  "menu": font.get("menu"),
@@ -19,17 +19,17 @@ def verify_math_fonts(match_name):
     return False
 
 
-def call_google_fonts(res_string):
-    split_res = res_string["fonts"]
+def call_google_fonts(res_string: str) -> dict:
+    split_res: dict = res_string["fonts"]
 
-    full_dic = {"fonts": []}
+    full_dic: dict = {"fonts": []}
     
     for font in split_res:
         
-        name = font["name"]
-        rank = font["rank"]
+        name: str = font["name"]
+        rank: str = font["rank"]
 
-        curr_font_search = verify_math_fonts(name)
+        curr_font_search: dict | bool = verify_math_fonts(name)
 
         if curr_font_search:
             merge_dick = {"name": name, "rank": rank} | curr_font_search

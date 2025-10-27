@@ -1,20 +1,25 @@
 from flask import Blueprint, request, make_response, jsonify, abort
 import json
 
+import core.prompts as s
+
 from middewares.middle import call_google_fonts
 from core.model_connection import send_prompt
-import core.system_prompt as s
+
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-TOKEN = os.getenv("TOKEN_RECOMMEND_API")
+TOKEN: str = os.getenv("TOKEN_RECOMMEND_API")
 
+#system prompts
+SYSTEM_PROMPT_TEXTUAL: str = s.TEXTUTAL
+SYSTEM_PROMPT_STRUCTURED: str = s.STRUCTURED
 
 give_ia_response =  Blueprint("give_ia_response", __name__)
 
 
-def _process_request_string(prompt, system_prompt):
+def _process_request_string(prompt: str, system_prompt: str) -> dict | Exception:
     try:
         res_string = send_prompt(prompt, system_prompt)
 
@@ -36,7 +41,7 @@ def give_response():
 
         prompt = request.json
     
-        res = _process_request_string(prompt, s.SYSTEM_PROMPT_STRUCTURED)
+        res = _process_request_string(prompt, SYSTEM_PROMPT_STRUCTURED)
 
         return make_response(
             jsonify(
@@ -52,7 +57,7 @@ def give_response_textual():
     try:
         prompt = request.json
 
-        res = _process_request_string(prompt, s.SYSTEM_PROMPT_TEXTUAL)
+        res = _process_request_string(prompt, SYSTEM_PROMPT_TEXTUAL)
 
         return make_response(
             jsonify(
@@ -65,3 +70,4 @@ def give_response_textual():
    
     
 
+print(s.TEXTUTAL)
